@@ -6,18 +6,24 @@
   <title>3D календарь с трассами Формулы 1 2025 для фанатов</title>
   <meta name="description" content="Настольный 3D-календарь с трассами Формулы‑1 2025: перепады высот, сменные цвета корпуса и PLA-печать. Доставка по России и СНГ, скидка в VK." />
   <link rel="canonical" href="https://example.ru/" />
+  <meta name="google-site-verification" content="GOOGLE_VERIFICATION_CODE" />
+  <meta name="yandex-verification" content="YANDEX_VERIFICATION_CODE" />
   <meta name="robots" content="index,follow" />
 
-  <!-- Open Graph / Twitter -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Календарь с трассами Формулы 1 2025 — подарок фанату F1 | гонка #101" />
-  <meta property="og:description" content="Календарь с трассами Формулы 1 2025 — настольный сувенир, 3D‑печать PLA. Подарок для фаната F1. Оформить в VK." />
-  <meta property="og:url" content="https://gonka101.example/landing" />
-  <meta property="og:image" content="/mnt/data/assets/calendar-2025-yellow-1536w.jpg" />
+  <meta property="og:site_name" content="гонка #101" />
+  <meta property="og:title" content="3D календарь с трассами Формулы 1 2025 для фанатов" />
+  <meta property="og:description" content="Настольный 3D-календарь с трассами Формулы‑1 2025: перепады высот, сменные цвета корпуса и PLA-печать. Доставка по России и СНГ, скидка в VK." />
+  <meta property="og:url" content="https://example.ru/" />
+  <meta property="og:image" content="https://example.ru/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Календарь с трассами Формулы 1 2025 — подарок фанату F1 | гонка #101" />
-  <meta name="twitter:description" content="Календарь с трассами Формулы 1 2025 — настольный сувенир, 3D‑печать PLA. Подарок для фаната F1. Оформить в VK." />
-  <meta name="twitter:image" content="/mnt/data/assets/calendar-2025-yellow-1536w.jpg" />
+  <meta name="twitter:title" content="3D календарь с трассами Формулы 1 2025 для фанатов" />
+  <meta name="twitter:description" content="Настольный 3D-календарь с трассами Формулы‑1 2025: перепады высот, сменные цвета корпуса и PLA-печать. Доставка по России и СНГ, скидка в VK." />
+  <meta name="twitter:image" content="https://example.ru/og.jpg" />
 
   <style>
     :root {
@@ -966,7 +972,7 @@
         overlay.setAttribute('role', 'dialog');
         overlay.setAttribute('aria-modal', 'true');
         overlay.setAttribute('aria-hidden', 'true');
-        overlay.innerHTML = '<figure class="image-lightbox__figure"><button type="button" class="image-lightbox__close" aria-label="Закрыть изображение">×</button><img alt="" /></figure>';
+        overlay.innerHTML = '<figure class="image-lightbox__figure"><button type="button" class="image-lightbox__close" aria-label="Закрыть изображение">×</button><img alt="" loading="lazy" /></figure>';
 
         const overlayImage = overlay.querySelector('img');
         const closeButton = overlay.querySelector('.image-lightbox__close');
@@ -977,6 +983,15 @@
           lastFocusedElement = document.activeElement;
           overlayImage.src = image.dataset.zoomSrc || image.currentSrc || image.src;
           overlayImage.alt = image.alt || '';
+          const width = image.naturalWidth || image.width;
+          const height = image.naturalHeight || image.height;
+          if(width && height){
+            overlayImage.setAttribute('width', width);
+            overlayImage.setAttribute('height', height);
+          } else {
+            overlayImage.removeAttribute('width');
+            overlayImage.removeAttribute('height');
+          }
           overlay.classList.add('is-open');
           overlay.setAttribute('aria-hidden', 'false');
           document.body.classList.add('lightbox-open');
@@ -989,6 +1004,8 @@
           overlay.setAttribute('aria-hidden', 'true');
           document.body.classList.remove('lightbox-open');
           overlayImage.removeAttribute('src');
+          overlayImage.removeAttribute('width');
+          overlayImage.removeAttribute('height');
           overlayImage.alt = '';
           if(lastFocusedElement && typeof lastFocusedElement.focus === 'function'){
             lastFocusedElement.focus({ preventScroll: true });
@@ -1097,9 +1114,9 @@
     "@type": "Product",
     "name": "Календарь с трассами Формулы 1 2025",
     "image": [
-      "https://example.ru/assets/calendar-2025-yellow-1536w.jpg",
-      "https://example.ru/assets/calendar-2025-red-1536w.jpg",
-      "https://example.ru/assets/calendar-2025-blue-1536w.jpg"
+      "https://example.ru/assets/calendar-yellow.webp",
+      "https://example.ru/assets/krasny1.webp",
+      "https://example.ru/assets/siniy.webp"
     ],
     "description": "Настольный календарь с трассами Формулы‑1 2025, 3D‑печать PLA. Подарок для фаната F1.",
     "sku": "CAL-2025-001",
@@ -1109,7 +1126,7 @@
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=calendar",
+      "url": "https://vk.me/gonka101",
       "priceCurrency": "RUB",
       "price": "2500",
       "availability": "https://schema.org/InStock"
@@ -1139,7 +1156,7 @@
             <span class="price-note">Жми на кнопку и получай специальное предложение.</span>
           </div>
           <div class="cta-row">
-            <a class="btn" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=calendar" target="_blank" rel="noopener" aria-label="Купить календарь с трассами Формулы 1 2025 в VK">Получить скидку в VK</a>
+            <a class="btn" href="https://vk.me/gonka101" target="_blank" rel="noopener" aria-label="Купить календарь с трассами Формулы 1 2025 в VK">Получить скидку в VK</a>
             <a class="btn secondary" href="https://vk.me/gonka101" target="_blank" rel="noopener" aria-label="Написать сообщение сообществу гонка 101">Написать</a>
           </div>
           <div class="meta-chips">
@@ -1152,9 +1169,9 @@
         <article class="tile gallery" data-variant-scope aria-label="Цветовые варианты календаря">
           <h2>Выберите цвет корпуса</h2>
           <div class="media-stack" data-zoom-gallery role="button" tabindex="0" aria-label="Открыть фото календаря крупнее">
-            <img class="product-image active" data-variant-image data-color="ffca28" data-zoomable src="assets/calendar-yellow.jpg" alt="Жёлтый календарь с трассами Формулы‑1 2025 на столе" width="1200" height="1600" />
-            <img class="product-image" data-variant-image data-color="e02424" data-zoomable src="assets/krasny1.jpg" alt="Красный календарь с трассами Формулы‑1 2025" width="1200" height="1600" />
-            <img class="product-image" data-variant-image data-color="2b6fb7" data-zoomable src="assets/siniy.jpg" alt="Синий календарь с трассами Формулы‑1 2025" width="1200" height="1600" />
+            <img class="product-image active" data-variant-image data-color="ffca28" data-zoomable src="assets/calendar-yellow.webp" alt="Жёлтый календарь с трассами Формулы‑1 2025 на столе" loading="lazy" width="1200" height="1600" />
+            <img class="product-image" data-variant-image data-color="e02424" data-zoomable src="assets/krasny1.webp" alt="Красный календарь с трассами Формулы‑1 2025" loading="lazy" width="1200" height="1600" />
+            <img class="product-image" data-variant-image data-color="2b6fb7" data-zoomable src="assets/siniy.webp" alt="Синий календарь с трассами Формулы‑1 2025" loading="lazy" width="1200" height="1600" />
           </div>
           <div class="variants" role="radiogroup" aria-label="Цвет календаря">
             <button class="variant" type="button" data-variant-button data-variant="ffca28" aria-pressed="true" style="--variant-color:#ffca28">
@@ -1240,7 +1257,7 @@
                 </div>
               </div>
               <div class="track-media">
-                <img src="assets/track-silverstone.jpg" alt="Сувенирный настольный трек Сильверстон в виде цветной схемы" loading="lazy" data-zoomable width="1600" height="1065" />
+                <img src="assets/track-silverstone.webp" alt="Сувенирный настольный трек Сильверстон в виде цветной схемы" loading="lazy" data-zoomable width="1600" height="1065" />
               </div>
               <div class="track-section">
                 <span class="track-label">Характеристики</span>
@@ -1256,7 +1273,7 @@
                 </dl>
               </div>
               <div class="actions">
-                <a class="btn compact" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=track" target="_blank" rel="noopener">Получить скидку в VK</a>
+                <a class="btn compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Получить скидку в VK</a>
                 <a class="btn secondary compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Уточнить</a>
               </div>
             </div>
@@ -1270,7 +1287,7 @@
                 </div>
               </div>
               <div class="track-media">
-                <img src="assets/track-spa.jpg" alt="Черный настольный трек Спа-Франкоршам" loading="lazy" data-zoomable width="1600" height="1366" />
+                <img src="assets/track-spa.webp" alt="Черный настольный трек Спа-Франкоршам" loading="lazy" data-zoomable width="1600" height="1366" />
               </div>
               <div class="track-section">
                 <span class="track-label">Характеристики</span>
@@ -1286,7 +1303,7 @@
                 </dl>
               </div>
               <div class="actions">
-                <a class="btn compact" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=spa-track" target="_blank" rel="noopener">Получить скидку в VK</a>
+                <a class="btn compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Получить скидку в VK</a>
                 <a class="btn secondary compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Уточнить</a>
               </div>
             </div>
@@ -1300,7 +1317,7 @@
                 </div>
               </div>
               <div class="track-media">
-                <img src="assets/breloki.jpg" alt="Мини-брелоки с индексами гонщиков Формулы-1" loading="lazy" data-zoomable width="1600" height="1065" />
+                <img src="assets/breloki.webp" alt="Мини-брелоки с индексами гонщиков Формулы-1" loading="lazy" data-zoomable width="1600" height="1065" />
               </div>
               <div class="track-section">
                 <span class="track-label">Характеристики</span>
@@ -1316,7 +1333,7 @@
                 </dl>
               </div>
               <div class="actions">
-                <a class="btn compact" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=keychains" target="_blank" rel="noopener">Получить скидку в VK</a>
+                <a class="btn compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Получить скидку в VK</a>
                 <a class="btn secondary compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Уточнить</a>
               </div>
             </div>
@@ -1372,7 +1389,7 @@
     </main>
 
     <footer role="contentinfo">
-      <div>© гонка #101 — фан-атрибутика Формулы‑1, 2025</div>
+      <div>ИП Михайлова Елизавета Владимировна, ОГРНИП 325508100185420</div>
       <div>
         <a href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing" target="_blank" rel="noopener">Магазин VK</a>
         <span style="margin:0 10px">·</span>
@@ -1382,5 +1399,40 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    (function(){
+      var pixelId = '8840171873657648809';
+      var pixelUrl = 'https://mc.yandex.ru/pixel/' + pixelId + '?rnd=' + Math.random();
+
+      function injectPixel(){
+        if(document.querySelector('[data-analytics="yandex-pixel"]')){ return; }
+        var img = document.createElement('img');
+        img.src = pixelUrl;
+        img.alt = '';
+        img.width = 1;
+        img.height = 1;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.referrerPolicy = 'no-referrer-when-downgrade';
+        img.setAttribute('data-analytics', 'yandex-pixel');
+        img.style.position = 'absolute';
+        img.style.left = '-9999px';
+        img.style.width = '1px';
+        img.style.height = '1px';
+        img.style.overflow = 'hidden';
+        document.body.appendChild(img);
+      }
+
+      if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', injectPixel);
+      } else {
+        injectPixel();
+      }
+    })();
+  </script>
+  <noscript>
+    <img src="https://mc.yandex.ru/pixel/8840171873657648809?rnd=1" alt="" width="1" height="1" style="position:absolute; left:-9999px;" />
+  </noscript>
 </body>
 </html>
