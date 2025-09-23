@@ -1,0 +1,1386 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>3D календарь с трассами Формулы 1 2025 для фанатов</title>
+  <meta name="description" content="Настольный 3D-календарь с трассами Формулы‑1 2025: перепады высот, сменные цвета корпуса и PLA-печать. Доставка по России и СНГ, скидка в VK." />
+  <link rel="canonical" href="https://example.ru/" />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Календарь с трассами Формулы 1 2025 — подарок фанату F1 | гонка #101" />
+  <meta property="og:description" content="Календарь с трассами Формулы 1 2025 — настольный сувенир, 3D‑печать PLA. Подарок для фаната F1. Оформить в VK." />
+  <meta property="og:url" content="https://gonka101.example/landing" />
+  <meta property="og:image" content="/mnt/data/assets/calendar-2025-yellow-1536w.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Календарь с трассами Формулы 1 2025 — подарок фанату F1 | гонка #101" />
+  <meta name="twitter:description" content="Календарь с трассами Формулы 1 2025 — настольный сувенир, 3D‑печать PLA. Подарок для фаната F1. Оформить в VK." />
+  <meta name="twitter:image" content="/mnt/data/assets/calendar-2025-yellow-1536w.jpg" />
+
+  <style>
+    :root {
+      --bg: #edf0f9;
+      --surface: rgba(255, 255, 255, 0.86);
+      --surface-strong: rgba(255, 255, 255, 0.95);
+      --border: rgba(15, 23, 42, 0.08);
+      --border-strong: rgba(15, 23, 42, 0.14);
+      --text: #111827;
+      --muted: #5b6578;
+      --accent: #e02424;
+      --accent-soft: rgba(224, 36, 36, 0.12);
+      --accent-dark: #11131c;
+      --radius: 26px;
+      --shadow: 0 35px 60px -40px rgba(15, 23, 42, 0.45);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(125deg, #f7f7fb 0%, var(--bg) 55%, #f7f7fb 100%);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+      position: relative;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 6% 12% auto;
+      height: 420px;
+      background: radial-gradient(circle at top left, rgba(224, 36, 36, 0.18), transparent 62%),
+                  radial-gradient(circle at top right, rgba(43, 111, 183, 0.16), transparent 65%);
+      filter: blur(45px);
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    header.site {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0 28px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      font-size: 1.1rem;
+      text-transform: lowercase;
+    }
+
+    nav[aria-label="Главное меню"] {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    nav[aria-label="Главное меню"] .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.14);
+      display: inline-flex;
+    }
+
+    nav a {
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    main { position: relative; z-index: 2; }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .tile {
+      position: relative;
+      padding: 28px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: transform 0.7s cubic-bezier(.22, 1, .36, 1), box-shadow 0.35s ease, opacity 0.7s ease;
+    }
+
+    .tile::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid transparent;
+      background: linear-gradient(140deg, rgba(255,255,255,0.8), rgba(255,255,255,0)) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .tile.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tile:hover { box-shadow: 0 40px 90px -50px rgba(17, 24, 39, 0.55); }
+
+    .tile.hero {
+      grid-column: span 7;
+      background: var(--accent-dark);
+      color: #f8fafc;
+      padding: 32px;
+      overflow: hidden;
+    }
+
+    .tile.hero::before {
+      content: "";
+      position: absolute;
+      inset: -40% -10% auto auto;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(224,36,36,0.55) 0%, transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .tile.hero::after { display: none; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2.05rem, 2.3vw + 1.6rem, 2.9rem);
+      margin: 14px 0 12px;
+      line-height: 1.1;
+    }
+
+    p { margin: 0; }
+
+    .hero-lead {
+      font-size: 1.03rem;
+      color: rgba(248, 250, 252, 0.82);
+      max-width: 520px;
+    }
+
+    .hero-price {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 22px;
+    }
+
+    .price-main {
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.01em;
+    }
+
+    .price-note {
+      color: rgba(248, 250, 252, 0.65);
+      font-size: 0.92rem;
+      max-width: 420px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 26px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      border: none;
+      background: #fff;
+      color: #11131c;
+      box-shadow: 0 16px 32px -20px rgba(255, 255, 255, 0.9);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 38px -18px rgba(255, 255, 255, 0.95);
+    }
+
+    .btn:active { transform: translateY(-1px); }
+
+    .btn.secondary {
+      background: transparent;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: none;
+    }
+
+    .btn.secondary:hover {
+      background: rgba(15, 23, 42, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn.compact {
+      padding: 10px 20px;
+      font-size: 0.92rem;
+    }
+
+    .meta-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(248, 250, 252, 0.12);
+      border: 1px solid rgba(248, 250, 252, 0.16);
+      font-size: 0.88rem;
+      color: rgba(248, 250, 252, 0.82);
+    }
+
+    .tile.gallery {
+      grid-column: span 5;
+      background: var(--surface-strong);
+      align-items: stretch;
+    }
+
+    .tile.gallery h2 {
+      font-size: 1.18rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .media-stack {
+      position: relative;
+      border-radius: calc(var(--radius) - 6px);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      box-shadow: 0 32px 60px -40px rgba(15, 23, 42, 0.35);
+      background: rgba(15, 23, 42, 0.8);
+      cursor: zoom-in;
+    }
+
+    .media-stack:focus-visible {
+      outline: 2px solid rgba(224, 36, 36, 0.6);
+      outline-offset: 4px;
+    }
+
+    .product-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.45s ease-in-out;
+      pointer-events: none;
+      cursor: zoom-in;
+    }
+
+    .product-image.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    [data-zoomable] {
+      cursor: zoom-in;
+    }
+
+    [data-zoomable]:not(.product-image) {
+      transition: transform 0.3s ease;
+    }
+
+    [data-zoomable]:not(.product-image):hover {
+      transform: scale(1.02);
+    }
+
+    [data-zoomable]:focus-visible {
+      outline: 2px solid rgba(224, 36, 36, 0.45);
+      outline-offset: 4px;
+    }
+
+    .variants {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .variants[role="radiogroup"] {
+      margin-top: 8px;
+    }
+
+    .variant {
+      --size: 40px;
+      position: relative;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 14px;
+      border: 1px solid var(--border-strong);
+      background: transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: transform 0.25s ease;
+    }
+
+    .variant::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 11px;
+      background: var(--variant-color, #ffca28);
+      box-shadow: inset 0 -4px 6px rgba(17, 24, 39, 0.18);
+    }
+
+    .variant:hover { transform: translateY(-3px); }
+
+    .variant[aria-pressed="true"] {
+      box-shadow: 0 0 0 4px rgba(224, 36, 36, 0.12);
+      border-color: rgba(224, 36, 36, 0.4);
+    }
+
+    .variant:focus-visible {
+      outline: 3px solid rgba(224, 36, 36, 0.3);
+      outline-offset: 3px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    .muted { color: var(--muted); font-size: 0.95rem; }
+
+    .tile.features {
+      grid-column: span 4;
+    }
+
+    .tile.features h2 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin: 6px 0 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      box-shadow: 0 16px 26px -22px rgba(15, 23, 42, 0.4);
+      min-height: 160px;
+      word-break: break-word;
+    }
+
+    .feature-item .emoji { font-size: 1.45rem; }
+
+    .feature-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+
+    .feature-item .muted { line-height: 1.5; }
+
+    .tile.specs {
+      grid-column: span 3;
+      align-items: flex-start;
+      background: var(--surface-strong);
+    }
+
+    .tile.specs h2 {
+      margin: 0 0 6px;
+      font-size: 1.12rem;
+    }
+
+    .spec-list {
+      display: grid;
+      gap: 14px;
+      margin: 10px 0 0;
+      padding: 0;
+    }
+
+    .spec {
+      display: grid;
+      gap: 4px;
+    }
+
+    .spec dt {
+      font-weight: 600;
+      font-size: 0.93rem;
+      color: #1f2937;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .spec dd {
+      margin: 0;
+      font-size: 0.98rem;
+      color: var(--muted);
+    }
+
+    .tile.video {
+      grid-column: span 5;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.75));
+      color: #f8fafc;
+    }
+
+    .tile.video::after { display: none; }
+
+    .video-frame {
+      position: relative;
+      border-radius: calc(var(--radius) - 6px);
+      overflow: hidden;
+      aspect-ratio: 9 / 16;
+      background: #000;
+      box-shadow: 0 32px 70px -40px rgba(15, 23, 42, 0.6);
+    }
+
+    .video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .tile.assortment {
+      grid-column: span 7;
+      background: linear-gradient(130deg, rgba(15, 23, 42, 0.08), rgba(255, 255, 255, 0.88));
+    }
+
+    .assortment-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.08);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .tile.assortment h2 {
+      margin: 10px 0 6px;
+      font-size: 1.18rem;
+    }
+
+    .assortment-note {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 520px;
+    }
+
+    .assortment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+      align-items: stretch;
+      grid-auto-rows: 1fr;
+    }
+
+    .assortment-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 22px 40px -30px rgba(15, 23, 42, 0.55);
+      height: 100%;
+    }
+
+    .assortment-top {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .assortment-icon {
+      font-size: 1.6rem;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: rgba(224, 36, 36, 0.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .assortment-card strong {
+      font-size: 1rem;
+    }
+
+    .assortment-card p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .assortment-card .price-tag {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1f2937;
+    }
+
+    .assortment-card .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .assortment-card .btn.compact {
+      flex: 1 0 100%;
+      background: linear-gradient(135deg, rgba(244, 247, 255, 0.96), rgba(226, 232, 255, 0.96));
+      color: #111827;
+      box-shadow: 0 18px 28px -18px rgba(79, 70, 229, 0.5);
+    }
+
+    .assortment-card .btn.compact:hover {
+      box-shadow: 0 22px 34px -16px rgba(79, 70, 229, 0.55);
+    }
+
+    .assortment-card .btn.secondary.compact {
+      flex: 1 0 auto;
+    }
+
+    .track-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.05);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+    }
+
+    .track-label {
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .track-media {
+      overflow: hidden;
+      border-radius: 18px;
+      background: rgba(248, 250, 255, 0.96);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 4 / 3;
+      min-height: 210px;
+      padding: 16px;
+    }
+
+    .track-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .track-specs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px 16px;
+      margin: 10px 0 0;
+      padding: 0;
+    }
+
+    .track-specs div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .track-specs dt {
+      font-weight: 500;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .track-specs dd {
+      margin: 2px 0 0;
+      font-size: 0.94rem;
+      color: #1f2937;
+    }
+
+    .tile.faq {
+      grid-column: span 5;
+      background: var(--surface-strong);
+    }
+
+    .tile.faq h2 { margin: 0; font-size: 1.16rem; }
+
+    details {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 18px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.7);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    details:hover { transform: translateY(-2px); border-color: rgba(224, 36, 36, 0.24); }
+
+    details + details { margin-top: 10px; }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "";
+      margin-left: auto;
+      border: 6px solid transparent;
+      border-top-color: rgba(17, 24, 39, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    details[open] summary::after { transform: rotate(180deg); }
+
+    details > div { margin-top: 12px; color: var(--muted); font-size: 0.94rem; line-height: 1.45; }
+
+    .tile.order {
+      grid-column: span 4;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .tile.order h2 { margin: 0; font-size: 1.14rem; }
+
+    .order-list {
+      counter-reset: steps;
+      display: grid;
+      gap: 12px;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .order-step {
+      position: relative;
+      padding: 16px 16px 16px 54px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      font-size: 0.97rem;
+    }
+
+    .order-step::before {
+      counter-increment: steps;
+      content: counter(steps);
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      width: 24px;
+      height: 24px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px -16px rgba(224, 36, 36, 0.8);
+    }
+
+    .tile.contacts {
+      grid-column: span 8;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .tile.contacts h2 { margin: 0; font-size: 1.14rem; }
+
+    .contact-block { display: flex; flex-direction: column; gap: 10px; }
+
+    .link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(224, 36, 36, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.25s ease, color 0.25s ease;
+    }
+
+    .link:hover { color: var(--accent); border-color: rgba(224, 36, 36, 0.5); }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      margin-top: 48px;
+      padding-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.92rem;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    footer a { text-decoration: none; color: inherit; font-weight: 600; }
+    footer a:hover { color: var(--accent); }
+
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(8, 13, 24, 0.78);
+      backdrop-filter: blur(6px);
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+
+    .image-lightbox.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .image-lightbox__figure {
+      position: relative;
+      margin: 0;
+      max-width: min(940px, 92vw);
+      width: 100%;
+    }
+
+    .image-lightbox__figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 22px;
+      box-shadow: 0 46px 92px -48px rgba(15, 23, 42, 0.65);
+    }
+
+    .image-lightbox__close {
+      position: absolute;
+      top: -18px;
+      right: -18px;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #f8fafc;
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 18px 36px -24px rgba(15, 23, 42, 0.75);
+    }
+
+    .image-lightbox__close:focus-visible {
+      outline: 2px solid rgba(224, 36, 36, 0.45);
+      outline-offset: 3px;
+    }
+
+    body.lightbox-open { overflow: hidden; }
+
+    @media (max-width: 1080px) {
+      .bento-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .tile.hero,
+      .tile.gallery,
+      .tile.video,
+      .tile.assortment,
+      .tile.faq,
+      .tile.contacts { grid-column: span 6; }
+      .tile.features,
+      .tile.specs,
+      .tile.order { grid-column: span 3; }
+      .tile.contacts { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      header.site { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .bento-grid { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      .tile { grid-column: span 1 !important; }
+      .tile.hero { padding: 28px; }
+      .tile.gallery, .tile.video, .tile.assortment, .tile.faq, .tile.features, .tile.specs, .tile.order, .tile.contacts { padding: 24px; }
+      .feature-list { grid-template-columns: 1fr; }
+      .cta-row { justify-content: flex-start; }
+      nav[aria-label="Главное меню"] { flex-wrap: wrap; gap: 12px; }
+      .image-lightbox { padding: 16px; }
+      .image-lightbox__figure img { border-radius: 18px; }
+      .image-lightbox__close { top: 6px; right: 6px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tile { transition: none !important; transform: none !important; opacity: 1 !important; }
+      .btn, .variant, details { transition: none !important; }
+    }
+  </style>
+
+  <script>
+    (function(){
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function initVariants(){
+        document.querySelectorAll('[data-variant-scope]').forEach(function(scope){
+          const buttons = scope.querySelectorAll('[data-variant-button]');
+          const images = scope.querySelectorAll('[data-variant-image]');
+          if(!buttons.length) { return; }
+
+          function activate(color){
+            buttons.forEach(btn => {
+              btn.setAttribute('aria-pressed', btn.dataset.variant === color ? 'true' : 'false');
+            });
+            images.forEach(img => {
+              img.classList.toggle('active', img.dataset.color === color);
+            });
+          }
+
+          buttons.forEach(btn => {
+            btn.addEventListener('click', function(){ activate(btn.dataset.variant); });
+            btn.addEventListener('keydown', function(e){
+              if(e.key === 'Enter' || e.key === ' '){
+                e.preventDefault();
+                activate(btn.dataset.variant);
+              }
+            });
+          });
+
+          const current = Array.from(buttons).find(btn => btn.getAttribute('aria-pressed') === 'true') || buttons[0];
+          activate(current.dataset.variant);
+        });
+      }
+
+      function revealOnScroll(){
+        if(reduce){
+          document.querySelectorAll('.tile').forEach(el => el.classList.add('in-view'));
+          return;
+        }
+
+        const observer = new IntersectionObserver(function(entries, obs){
+          entries.forEach(entry => {
+            if(entry.isIntersecting){
+              entry.target.classList.add('in-view');
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.18 });
+
+        document.querySelectorAll('.tile').forEach(el => observer.observe(el));
+      }
+
+      function initImageZoom(){
+        const zoomables = document.querySelectorAll('[data-zoomable]');
+        const galleries = document.querySelectorAll('[data-zoom-gallery]');
+        if(!zoomables.length && !galleries.length){ return; }
+
+        const overlay = document.createElement('div');
+        overlay.className = 'image-lightbox';
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.innerHTML = '<figure class="image-lightbox__figure"><button type="button" class="image-lightbox__close" aria-label="Закрыть изображение">×</button><img alt="" /></figure>';
+
+        const overlayImage = overlay.querySelector('img');
+        const closeButton = overlay.querySelector('.image-lightbox__close');
+        let lastFocusedElement = null;
+
+        function openOverlay(image){
+          if(!image){ return; }
+          lastFocusedElement = document.activeElement;
+          overlayImage.src = image.dataset.zoomSrc || image.currentSrc || image.src;
+          overlayImage.alt = image.alt || '';
+          overlay.classList.add('is-open');
+          overlay.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('lightbox-open');
+          closeButton.focus({ preventScroll: true });
+        }
+
+        function closeOverlay(){
+          if(!overlay.classList.contains('is-open')){ return; }
+          overlay.classList.remove('is-open');
+          overlay.setAttribute('aria-hidden', 'true');
+          document.body.classList.remove('lightbox-open');
+          overlayImage.removeAttribute('src');
+          overlayImage.alt = '';
+          if(lastFocusedElement && typeof lastFocusedElement.focus === 'function'){
+            lastFocusedElement.focus({ preventScroll: true });
+          }
+        }
+
+        closeButton.addEventListener('click', closeOverlay);
+        overlay.addEventListener('click', function(event){
+          if(event.target === overlay){
+            closeOverlay();
+          }
+        });
+
+        document.addEventListener('keydown', function(event){
+          if(event.key === 'Escape'){
+            closeOverlay();
+          }
+        });
+
+        zoomables.forEach(function(image){
+          if(!image.classList.contains('product-image') && !image.hasAttribute('tabindex')){
+            image.setAttribute('tabindex', '0');
+          }
+
+          image.addEventListener('click', function(){
+            if(image.classList.contains('product-image') && !image.classList.contains('active')){
+              return;
+            }
+            openOverlay(image);
+          });
+
+          image.addEventListener('keydown', function(event){
+            if(event.key === 'Enter' || event.key === ' '){
+              event.preventDefault();
+              if(image.classList.contains('product-image') && !image.classList.contains('active')){
+                return;
+              }
+              openOverlay(image);
+            }
+          });
+        });
+
+        galleries.forEach(function(gallery){
+          gallery.addEventListener('keydown', function(event){
+            if(event.key === 'Enter' || event.key === ' '){
+              event.preventDefault();
+              const activeImage = gallery.querySelector('.product-image.active');
+              openOverlay(activeImage);
+            }
+          });
+        });
+
+        document.body.appendChild(overlay);
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        initVariants();
+        revealOnScroll();
+        initImageZoom();
+
+        const hero = document.querySelector('.tile.hero');
+        if(hero && !reduce){
+          hero.style.opacity = 0;
+          hero.style.transform = 'translateY(16px)';
+          setTimeout(function(){
+            hero.style.transition = 'opacity 0.75s ease, transform 0.75s ease';
+            hero.style.opacity = 1;
+            hero.style.transform = 'none';
+          }, 80);
+        }
+      });
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "гонка #101",
+    "url": "https://example.ru/",
+    "logo": "https://example.ru/assets/logo-400.png",
+    "sameAs": ["https://vk.com/club229750607"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Как оформить заказ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Мы принимаем заказы во VK. Нажмите кнопку «Перейти в сообщество» и напишите нам."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Календарь с трассами Формулы 1 2025",
+    "image": [
+      "https://example.ru/assets/calendar-2025-yellow-1536w.jpg",
+      "https://example.ru/assets/calendar-2025-red-1536w.jpg",
+      "https://example.ru/assets/calendar-2025-blue-1536w.jpg"
+    ],
+    "description": "Настольный календарь с трассами Формулы‑1 2025, 3D‑печать PLA. Подарок для фаната F1.",
+    "sku": "CAL-2025-001",
+    "brand": {
+      "@type": "Brand",
+      "name": "гонка #101"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=calendar",
+      "priceCurrency": "RUB",
+      "price": "2500",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div class="shell" role="document">
+    <header class="site" role="banner">
+      <div class="brand" aria-label="гонка 101">Магазин для фанатов автоспорта гонка #101</div>
+      <nav aria-label="Главное меню">
+        <a href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing" target="_blank" rel="noopener">Магазин VK</a>
+        <span class="dot" aria-hidden="true"></span>
+        <a href="https://vk.me/gonka101" target="_blank" rel="noopener">Написать</a>
+      </nav>
+    </header>
+
+    <main role="main" aria-labelledby="main-heading">
+      <section class="bento-grid">
+        <article class="tile hero" aria-labelledby="main-heading">
+          <span class="hero-badge">сезон 2025</span>
+          <h1 id="main-heading">3-D Календарь с трассами Формулы‑1</h1>
+          <p class="hero-lead">Прекрасное украшение рабочего места или идеальный подарок фанату F1.</p>
+          <div class="hero-price">
+            <span class="price-main">2 500 ₽</span>
+            <span class="price-note">Жми на кнопку и получай специальное предложение.</span>
+          </div>
+          <div class="cta-row">
+            <a class="btn" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=calendar" target="_blank" rel="noopener" aria-label="Купить календарь с трассами Формулы 1 2025 в VK">Получить скидку в VK</a>
+            <a class="btn secondary" href="https://vk.me/gonka101" target="_blank" rel="noopener" aria-label="Написать сообщение сообществу гонка 101">Написать</a>
+          </div>
+          <div class="meta-chips">
+            <span class="meta-chip">3D‑печать из PLA</span>
+            <span class="meta-chip">Точные перепады высот</span>
+            <span class="meta-chip">Доставка по России</span>
+          </div>
+        </article>
+
+        <article class="tile gallery" data-variant-scope aria-label="Цветовые варианты календаря">
+          <h2>Выберите цвет корпуса</h2>
+          <div class="media-stack" data-zoom-gallery role="button" tabindex="0" aria-label="Открыть фото календаря крупнее">
+            <img class="product-image active" data-variant-image data-color="ffca28" data-zoomable src="assets/calendar-yellow.jpg" alt="Жёлтый календарь с трассами Формулы‑1 2025 на столе" />
+            <img class="product-image" data-variant-image data-color="e02424" data-zoomable src="assets/krasny1.jpg" alt="Красный календарь с трассами Формулы‑1 2025" />
+            <img class="product-image" data-variant-image data-color="2b6fb7" data-zoomable src="assets/siniy.jpg" alt="Синий календарь с трассами Формулы‑1 2025" />
+          </div>
+          <div class="variants" role="radiogroup" aria-label="Цвет календаря">
+            <button class="variant" type="button" data-variant-button data-variant="ffca28" aria-pressed="true" style="--variant-color:#ffca28">
+              <span class="sr-only">Жёлтый календарь</span>
+            </button>
+            <button class="variant" type="button" data-variant-button data-variant="e02424" aria-pressed="false" style="--variant-color:#e02424">
+              <span class="sr-only">Красный календарь</span>
+            </button>
+            <button class="variant" type="button" data-variant-button data-variant="2b6fb7" aria-pressed="false" style="--variant-color:#2b6fb7">
+              <span class="sr-only">Синий календарь</span>
+            </button>
+          </div>
+          <p class="muted">Карточки с трассами сезона входят в комплект. Цвет можно выбрать при заказе.</p>
+        </article>
+
+        <article class="tile features" aria-labelledby="benefits-heading">
+          <h2 id="benefits-heading">Почему гонка #101</h2>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="emoji" aria-hidden="true">🏎️</span>
+              <div>
+                <strong>Актуальные трассы</strong>
+                <span class="muted">Мы провели большое исследование, чтобы на наших календарях появились точные перепады высот.</span>
+              </div>
+            </li>
+            <li class="feature-item">
+              <span class="emoji" aria-hidden="true">🧩</span>
+              <div>
+                <strong>Модульная конструкция</strong>
+                <span class="muted">Собирается за минуту, устойчиво стоит на столе и не занимает много места.</span>
+              </div>
+            </li>
+            <li class="feature-item">
+              <span class="emoji" aria-hidden="true">🛠️</span>
+              <div>
+                <strong>PLA и точная печать</strong>
+                <span class="muted">Бережная 3D‑печать с постобработкой — края гладкие, цвета насыщенные.</span>
+              </div>
+            </li>
+            <li class="feature-item">
+              <span class="emoji" aria-hidden="true">📦</span>
+              <div>
+                <strong>Сборка и контроль</strong>
+                <span class="muted">Каждый календарь упаковываем вручную.</span>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        <article class="tile specs" aria-labelledby="specs-heading">
+          <h2 id="specs-heading">Характеристики</h2>
+          <dl class="spec-list">
+            <div class="spec">
+              <dt>Материал</dt>
+              <dd>PLA‑пластик на основе крахмала. Безопасно и экологично.</dd>
+            </div>
+            <div class="spec">
+              <dt>Размер</dt>
+              <dd>22 × 25 × 7 см — компактный формат для рабочего стола.</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="tile video" aria-label="Видео с календарём Формулы‑1">
+          <div class="video-frame">
+            <iframe src="https://vk.com/video_ext.php?oid=-229750607&id=456239033&hd=2&autoplay=1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowfullscreen title="Видео: календарь с трассами Формулы‑1 2025"></iframe>
+          </div>
+          <p class="muted">В живом видео видно фактуру печати, как листы переворачиваются и как календарь смотрится на столе.</p>
+        </article>
+
+        <article class="tile assortment" aria-labelledby="assortment-heading">
+          <span class="assortment-label">Ассортимент</span>
+          <h2 id="assortment-heading">Дополняем календарь аксессуарами</h2>
+          <p class="assortment-note">Кроме календаря, мы собрали небольшую линейку сувениров. Можно выбрать любимую трассу отдельно или собрать подарок с тематическими брелоками.</p>
+
+          <div class="assortment-grid">
+            <div class="assortment-card">
+              <div class="assortment-top">
+                <span class="assortment-icon" aria-hidden="true">🏁</span>
+                <div>
+                  <strong>Трек Спа-франкоршам (черный)</strong>
+                  <p>Классическая трасса Формулы‑1, выполненная в виде настольной схемы.</p>
+                </div>
+              </div>
+              <div class="track-media">
+                <img src="assets/track-silverstone.jpg" alt="Сувенирный настольный трек Сильверстон в виде цветной схемы" loading="lazy" data-zoomable />
+              </div>
+              <div class="track-section">
+                <span class="track-label">Характеристики</span>
+                <dl class="track-specs">
+                  <div>
+                    <dt>Размеры</dt>
+                    <dd>длина 20 см, ширина 12 см</dd>
+                  </div>
+                  <div>
+                    <dt>Стоимость</dt>
+                    <dd>410 руб.</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="actions">
+                <a class="btn compact" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=track" target="_blank" rel="noopener">Получить скидку в VK</a>
+                <a class="btn secondary compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Уточнить</a>
+              </div>
+            </div>
+
+            <div class="assortment-card">
+              <div class="assortment-top">
+                <span class="assortment-icon" aria-hidden="true">🏁</span>
+                <div>
+                  <strong>Трек Сильверстоун (схематический)</strong>
+                  <p>Легендарная трасса с уклонами, выполненная в минималистичном черном цвете.</p>
+                </div>
+              </div>
+              <div class="track-media">
+                <img src="assets/track-spa.jpg" alt="Черный настольный трек Спа-франкоршам" loading="lazy" data-zoomable />
+              </div>
+              <div class="track-section">
+                <span class="track-label">Характеристики</span>
+                <dl class="track-specs">
+                  <div>
+                    <dt>Размеры</dt>
+                    <dd>длина 29 см, ширина 21 см</dd>
+                  </div>
+                  <div>
+                    <dt>Стоимость</dt>
+                    <dd>1690 руб.</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="actions">
+                <a class="btn compact" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=spa-track" target="_blank" rel="noopener">Получить скидку в VK</a>
+                <a class="btn secondary compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Уточнить</a>
+              </div>
+            </div>
+
+            <div class="assortment-card">
+              <div class="assortment-top">
+                <span class="assortment-icon" aria-hidden="true">🔑</span>
+                <div>
+                  <strong>Брелоки с пилотами</strong>
+                  <p>Мини-брелоки с силуэтами номеров и цветов команд. Можно собрать полный сет или выбрать любимого пилота.</p>
+                </div>
+              </div>
+              <div class="track-media">
+                <img src="assets/breloki.jpg" alt="Мини-брелоки с индексами гонщиков Формулы-1" loading="lazy" data-zoomable />
+              </div>
+              <div class="track-section">
+                <span class="track-label">Характеристики</span>
+                <dl class="track-specs">
+                  <div>
+                    <dt>Размер</dt>
+                    <dd>длина 7 см, ширина 3 см</dd>
+                  </div>
+                  <div>
+                    <dt>Стоимость</dt>
+                    <dd>249 руб. за штуку</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="actions">
+                <a class="btn compact" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing&utm_content=keychains" target="_blank" rel="noopener">Получить скидку в VK</a>
+                <a class="btn secondary compact" href="https://vk.me/gonka101" target="_blank" rel="noopener">Уточнить</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="tile faq" aria-labelledby="faq-heading">
+          <h2 id="faq-heading">Вопросы и ответы</h2>
+
+          <details>
+            <summary>Из какого материала сделан календарь?</summary>
+            <div>Мы печатаем корпуса и подставки на 3D‑принтерах из PLA — экологичного пластика. Поверхности шлифуем и проверяем перед упаковкой.</div>
+          </details>
+
+          <details>
+            <summary>Какие есть цвета?</summary>
+            <div>Выбирайте из трёх фирменных цветов: жёлтый, красный и синий. Сообщите желаемый цвет при заказе — мы закрепим его за вами.</div>
+          </details>
+
+          <details>
+            <summary>Что по доставке?</summary>
+            <div>Отправляем по всей России и СНГ СДЭК или Почтой. Бережно упаковываем и сообщаем трек в день отправки.</div>
+          </details>
+
+          <details>
+            <summary>Можно ли подарить?</summary>
+            <div>Да! Упакуем как подарок и вложим открытку. Просто напишите нам после оформления заказа.</div>
+          </details>
+        </article>
+
+        <article class="tile order" aria-labelledby="order-heading">
+          <h2 id="order-heading">Как оформить</h2>
+          <ul class="order-list">
+            <li class="order-step">Нажмите кнопку «Купить в VK» и оставьте заявку в витрине.</li>
+            <li class="order-step">Менеджер уточнит цвет, адрес и способ доставки. Можно задать любые вопросы.</li>
+            <li class="order-step">После оплаты отправим календарь и пришлём трек-номер. Готово!</li>
+          </ul>
+        </article>
+
+        <article class="tile contacts" aria-labelledby="contact-heading">
+          <div class="contact-block">
+            <h2 id="contact-heading">Контакты</h2>
+            <p class="muted">Сообщество: <a class="link" href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing" target="_blank" rel="noopener">vk.com/club229750607</a></p>
+            <p class="muted">Чат и вопросы: <a class="link" href="https://vk.me/gonka101" target="_blank" rel="noopener">vk.me/gonka101</a></p>
+            <p class="muted">Мы на связи ежедневно с 10:00 до 21:00 по Москве.</p>
+          </div>
+          <div class="contact-block">
+            <h2>Политика и оферта</h2>
+            <p class="muted">Краткие документы доступны на сайте: <a class="link" href="privacy.html">Политика конфиденциальности</a> и <a class="link" href="terms.html">Правила использования</a>. Перед оплатой в VK менеджер отправит ссылку на действующую публичную оферту.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer role="contentinfo">
+      <div>© гонка #101 — фан-атрибутика Формулы‑1, 2025</div>
+      <div>
+        <a href="https://vk.com/club229750607?utm_source=organic&utm_medium=seo&utm_campaign=landing" target="_blank" rel="noopener">Магазин VK</a>
+        <span style="margin:0 10px">·</span>
+        <a href="privacy.html">Политика конфиденциальности</a>
+        <span style="margin:0 10px">·</span>
+        <a href="terms.html">Правила сайта</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

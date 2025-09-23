@@ -1,0 +1,9 @@
+# robots.txt для гонка #101 — базовые правила индексации
+User-agent: *
+Allow: /
+Sitemap: https://example.ru/sitemap.xml
+
+# Дополнительные указания для Яндекса
+User-agent: Yandex
+Host: example.ru
+Clean-param: utm_source&utm_medium&utm_campaign /
