@@ -2,9 +2,9 @@
 User-agent: *
 Disallow: /admin/
 Allow: /
-Sitemap: https://kglumov791-oss.github.io/gonka101/sitemap.xml
+Sitemap: https://gonka101.ru/sitemap.xml
 
 # Дополнительные указания для Яндекса
 User-agent: Yandex
-Host: kglumov791-oss.github.io
+Host: gonka101.ru
 Clean-param: utm_source&utm_medium&utm_campaign /
