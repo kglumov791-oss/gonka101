@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.ru/</loc>
-    <lastmod>2025-09-23T19:58:58Z</lastmod>
+    <loc>https://kglumov791-oss.github.io/gonka101/</loc>
+    <lastmod>2025-09-24T16:30:36Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.ru/privacy.html</loc>
-    <lastmod>2025-09-23T19:58:58Z</lastmod>
+    <loc>https://kglumov791-oss.github.io/gonka101/privacy.html</loc>
+    <lastmod>2025-09-24T16:30:36Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://example.ru/terms.html</loc>
-    <lastmod>2025-09-23T19:58:58Z</lastmod>
+    <loc>https://kglumov791-oss.github.io/gonka101/terms.html</loc>
+    <lastmod>2025-09-24T16:30:36Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
