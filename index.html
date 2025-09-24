@@ -21,7 +21,6 @@
 
     ym(104273522, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/104273522" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
 
   <!-- Open Graph -->
@@ -1149,6 +1148,7 @@
   </script>
 </head>
 <body>
+  <noscript><div><img src="https://mc.yandex.ru/watch/104273522" alt="" width="1" height="1" style="position:absolute; left:-9999px;" /></div></noscript>
   <div class="shell" role="document">
     <header class="site" role="banner">
       <div class="brand" aria-label="гонка 101">Магазин для фанатов автоспорта гонка #101</div>
@@ -1414,39 +1414,5 @@
     </footer>
   </div>
 
-  <script>
-    (function(){
-      var pixelId = '8840171873657648809';
-      var pixelUrl = 'https://mc.yandex.ru/pixel/' + pixelId + '?rnd=' + Math.random();
-
-      function injectPixel(){
-        if(document.querySelector('[data-analytics="yandex-pixel"]')){ return; }
-        var img = document.createElement('img');
-        img.src = pixelUrl;
-        img.alt = '';
-        img.width = 1;
-        img.height = 1;
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.referrerPolicy = 'no-referrer-when-downgrade';
-        img.setAttribute('data-analytics', 'yandex-pixel');
-        img.style.position = 'absolute';
-        img.style.left = '-9999px';
-        img.style.width = '1px';
-        img.style.height = '1px';
-        img.style.overflow = 'hidden';
-        document.body.appendChild(img);
-      }
-
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', injectPixel);
-      } else {
-        injectPixel();
-      }
-    })();
-  </script>
-  <noscript>
-    <img src="https://mc.yandex.ru/pixel/8840171873657648809?rnd=1" alt="" width="1" height="1" style="position:absolute; left:-9999px;" />
-  </noscript>
 </body>
 </html>
